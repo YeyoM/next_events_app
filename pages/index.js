@@ -6,11 +6,13 @@ export default function Home() {
   const featuredEvents = getFeaturedEvents();
 
   return (
-    <div>
-      <h1>Home</h1>
-      <ul>
-        <EventIList items={featuredEvents}/>
-      </ul>
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '80vh'
+    }}>
+      <EventIList items={featuredEvents}/>
     </div>
   )
 }
