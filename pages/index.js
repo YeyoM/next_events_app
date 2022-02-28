@@ -1,5 +1,5 @@
 import { getFeaturedEvents } from '../dummy-data'
-import EventIList from '../components/events/event-list'
+import EventList from '../components/events/event-list'
 
 export default function Home() {
 
@@ -12,7 +12,7 @@ export default function Home() {
       alignItems: 'center',
       minHeight: '80vh'
     }}>
-      <EventIList items={featuredEvents}/>
+      <EventList items={featuredEvents}/>
     </div>
   )
 }
