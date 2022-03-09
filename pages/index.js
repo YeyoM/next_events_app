@@ -16,3 +16,14 @@ export default function Home() {
     </div>
   )
 }
+
+export async function getStaticProps(context) {
+
+  // https://nextjs-course-yeyo-default-rtdb.firebaseio.com/events.json
+    
+  //return {
+  //  props: {
+  //    featuredEvents: 
+  //  }
+  //}
+}
