@@ -1,10 +1,7 @@
-import { getFeaturedEvents } from '../dummy-data'
 import EventList from '../components/events/event-list'
+import { getFeaturedEvents } from '../helpers/api-util'
 
-export default function Home() {
-
-  const featuredEvents = getFeaturedEvents();
-
+export default function Home(props) {
   return (
     <div style={{
       display: 'flex',
@@ -12,18 +9,19 @@ export default function Home() {
       alignItems: 'center',
       minHeight: '80vh'
     }}>
-      <EventList items={featuredEvents}/>
+      <EventList items={props.events}/>
     </div>
   )
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps(context) {    
 
-  // https://nextjs-course-yeyo-default-rtdb.firebaseio.com/events.json
-    
-  //return {
-  //  props: {
-  //    featuredEvents: 
-  //  }
-  //}
+  const featuredEvents = await getFeaturedEvents()
+
+  return {
+    props: {
+      events: featuredEvents
+    },
+    revalidate: 1800
+  }
 }
