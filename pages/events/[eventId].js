@@ -1,4 +1,5 @@
 import { Fragment } from 'react'
+import Head from 'next/head'
 
 import EventSummary from '../../components/event-detail/event-summary'
 import EventLogistics from '../../components/event-detail/event-logistics'
@@ -20,6 +21,13 @@ export default function SingleEventPage(props) {
 
   return (
     <Fragment>
+      <Head>
+        <title>{event.title}</title>
+        <meta 
+          name="description"
+          content={event.description}
+        />
+      </Head>
       <EventSummary title={event.title}/>
       <EventLogistics 
         date={event.date} 

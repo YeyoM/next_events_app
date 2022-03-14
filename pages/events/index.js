@@ -2,6 +2,7 @@ import EventList from '../../components/events/event-list'
 import EventsSearch from '../../components/events/events-search'
 import { useRouter } from 'next/router'
 import { getAllEvents } from '../../helpers/api-util'
+import Head from 'next/head'
 
 export default function AllEventsPage(props) {
 
@@ -20,6 +21,13 @@ export default function AllEventsPage(props) {
       minHeight: '80vh',
       flexDirection: 'column'
     }}>
+      <Head>
+        <title>All Events</title>
+        <meta 
+          name="description"
+          content="A great events page built in top of NextJS"
+        />
+      </Head>
       <EventsSearch onSearch={findEventsHandler}/>
       <EventList items={props.events}/>
     </div>

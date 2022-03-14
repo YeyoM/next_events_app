@@ -1,3 +1,5 @@
+import Head from 'next/head'
+
 import EventList from '../components/events/event-list'
 import { getFeaturedEvents } from '../helpers/api-util'
 
@@ -9,6 +11,13 @@ export default function Home(props) {
       alignItems: 'center',
       minHeight: '80vh'
     }}>
+      <Head>
+        <title>Events-NextJS</title>
+        <meta 
+          name="description"
+          content="A great events page built in top of NextJS"
+        />
+      </Head>
       <EventList items={props.events}/>
     </div>
   )
