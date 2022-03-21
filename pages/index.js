@@ -2,6 +2,7 @@ import Head from 'next/head'
 
 import EventList from '../components/events/event-list'
 import { getFeaturedEvents } from '../helpers/api-util'
+import NewsletterRegistration from '../components/input/newsletter-registration'
 
 export default function Home(props) {
   return (
@@ -9,7 +10,8 @@ export default function Home(props) {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      minHeight: '80vh'
+      minHeight: '80vh',
+      flexDirection: 'column',
     }}>
       <Head>
         <title>Events-NextJS</title>
@@ -19,6 +21,7 @@ export default function Home(props) {
         />
       </Head>
       <EventList items={props.events}/>
+      <NewsletterRegistration />
     </div>
   )
 }
