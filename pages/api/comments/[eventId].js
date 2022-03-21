@@ -34,13 +34,14 @@ export default function handler(req, res) {
   } else if(req.method === 'GET') {
 
     // get the comments from a database
-    const allComments = {
-      { id: 'c1' }
-    }
+    const allComments = [
+      { id: 'c1', name: 'Yeyo', text: 'comment 1' },
+      { id: 'c2', name: 'Yeyo', text: 'comment 2' }
+    ]
 
     res.status(201).send({
       message: 'Comments of event ' + eventId,
-      allComments
+      comments: allComments
     })
   }
 }
