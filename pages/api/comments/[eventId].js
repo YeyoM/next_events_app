@@ -1,6 +1,10 @@
-export default function handler(req, res) {
+import { MongoClient } from 'mongodb'
+
+export default async function handler(req, res) {
 
   const eventId = req.query.eventId
+
+  const client = await MongoClient.connect(process.env.mongoUrl);
 
   if(req.method === 'POST') {
     const {
@@ -21,14 +25,15 @@ export default function handler(req, res) {
       name,
       text,
       event: eventId,
-      id: new Date().toISOString()
     }
 
     // store newComment on a database
+    const db = client.db()
+    const result = await db.collection('comments').insertOne(newComment)
 
     res.status(201).send({
       message: 'Comment send correctly to event ' + eventId,
-      newComment
+      result
     })
 
   } else if(req.method === 'GET') {
@@ -44,4 +49,7 @@ export default function handler(req, res) {
       comments: allComments
     })
   }
+
+  client.close()
+
 }

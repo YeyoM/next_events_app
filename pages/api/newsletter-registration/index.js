@@ -1,4 +1,7 @@
-export default function handler(req, res) {
+import { MongoClient } from 'mongodb'
+import 'dotenv/config'
+
+export default async function handler(req, res) {
   if(req.method == 'POST') {
     const { email } = req.body
 
@@ -10,11 +13,15 @@ export default function handler(req, res) {
     }
 
     const newNewsletter = {
-      id: new Date().toString(),
       email
     }
 
     // store it in a database here
+    const client = await MongoClient.connect(process.env.mongoUrl);
+    const db = client.db()
+    await db.collection('newsletter').insertOne(newNewsletter)
+    client.close()
+
     res.status(201).json({
       message: 'Email successfully recieved!',
       newNewsletter
