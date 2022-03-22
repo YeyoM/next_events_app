@@ -1,10 +1,20 @@
-import { MongoClient } from 'mongodb'
+import {
+  connectDatabase,
+  insertDocument,
+  getAllDocuments,
+} from '../../../helpers/db-util'
 
 export default async function handler(req, res) {
 
   const eventId = req.query.eventId
+  let client
 
-  const client = await MongoClient.connect(process.env.mongoUrl);
+  try {
+    client = await connectDatabase();
+  } catch (e) {
+    res.status(500).json({ message: 'Connecting to the database failed!' });
+    return;
+  }
 
   if(req.method === 'POST') {
     const {
@@ -27,27 +37,31 @@ export default async function handler(req, res) {
       event: eventId,
     }
 
-    // store newComment on a database
-    const db = client.db()
-    const result = await db.collection('comments').insertOne(newComment)
+    console.log(eventId)
 
-    res.status(201).send({
-      message: 'Comment send correctly to event ' + eventId,
-      result
-    })
+    // store newComment on a database
+    let result;
+
+    try {
+      result = await insertDocument(client, 'comments', newComment)
+      newComment._id = result.insertedId
+      res.status(201).json({ message: 'Added comment.', comment: newComment })
+    } catch (error) {
+      res.status(500).json({ message: 'Inserting comment failed!' })
+    }
 
   } else if(req.method === 'GET') {
 
     // get the comments from a database
-    const allComments = [
-      { id: 'c1', name: 'Yeyo', text: 'comment 1' },
-      { id: 'c2', name: 'Yeyo', text: 'comment 2' }
-    ]
-
-    res.status(201).send({
-      message: 'Comments of event ' + eventId,
-      comments: allComments
-    })
+    try {
+      const documents = await getAllDocuments(client, 'comments', { _id: -1 })
+      const filteredDocuments = documents.filter(doc => {
+        return doc.event === eventId
+      })
+      res.status(200).json({ comments: filteredDocuments })
+    } catch (error) {
+      res.status(500).json({ message: 'Getting comments failed.' })
+    }
   }
 
   client.close()

@@ -39,7 +39,7 @@ export default function SingleEventPage(props) {
       <EventContent>
         <p>{event.description}</p>
       </EventContent>
-      <Comments enventId={event.id} />
+      <Comments eventId={event.id} />
     </Fragment>
   )
 }

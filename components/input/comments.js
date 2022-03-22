@@ -17,6 +17,7 @@ function Comments(props) {
       .then(response => {
         return response.json()
       }).then(data => {
+        console.log(data)
         setComments(data.comments)
       })
     }
