@@ -2,7 +2,7 @@ import { MongoClient } from 'mongodb'
 import 'dotenv/config'
 
 export async function connectDatabase() {
-  const client = await MongoClient.connect(process.env.mongoUrl)
+  const client = await MongoClient.connect(process.env.MONGO_URL)
   return client
 }
 
