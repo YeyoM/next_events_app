@@ -10,18 +10,20 @@ function Comments(props) {
   const [showComments, setShowComments] = useState(false)
   const [message, setMessage] = useState('')
   const [comments, setComments] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if(showComments) {
+      setLoading(true)
       fetch(`/api/comments/${eventId}`)
       .then(response => {
         return response.json()
       }).then(data => {
-        console.log(data)
+        setLoading(false)
         setComments(data.comments)
       })
     }
-  })
+  }, [showComments])
 
   function toggleCommentsHandler() {
     setShowComments((prevStatus) => !prevStatus);
@@ -36,8 +38,6 @@ function Comments(props) {
       }
     }).then(response => {
       return response.json()
-    }).then(data => {
-      console.log(data)
     })
   }
 
@@ -48,7 +48,7 @@ function Comments(props) {
       </button>
       {showComments && message}
       {showComments && <NewComment onAddComment={addCommentHandler} />}
-      {showComments && <CommentList items={comments}/>}
+      {showComments && <CommentList items={comments} loading={loading}/>}
     </section>
   );
 }
