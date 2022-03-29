@@ -1,8 +1,25 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useContext } from 'react'
+import NotificationContext from '../../store/notification-context'
 import classes from './new-comment.module.css'
 
 function NewComment(props) {
+
+  const notificationCtx = useContext(NotificationContext)
+
   const [isInvalid, setIsInvalid] = useState(false)
+  const [comment, setComment] = useState('')	
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value)
+  }
+  const handleCommentChange = (event) => {
+    setComment(event.target.value)
+  }
+  const handleNameChange = (event) => {
+    setName(event.target.value)
+  }
 
   const emailInputRef = useRef()
   const nameInputRef = useRef()
@@ -11,9 +28,9 @@ function NewComment(props) {
   function sendCommentHandler(event) {
     event.preventDefault()
 
-    const enteredEmail = emailInputRef.current.value
-    const enteredName = nameInputRef.current.value
-    const enteredComment = commentInputRef.current.value
+    const enteredEmail = email
+    const enteredName = name
+    const enteredComment = comment
 
     if (
       !enteredEmail ||
@@ -24,7 +41,11 @@ function NewComment(props) {
       !enteredComment ||
       enteredComment.trim() === ''
     ) {
-      setIsInvalid(true)
+      notificationCtx.showNotification({
+        title: 'Error',
+        message: 'Please fill in all fields.',
+        status: 'error'
+      })
       return
     }
 
@@ -33,6 +54,9 @@ function NewComment(props) {
       name: enteredName,
       text: enteredComment,
     })
+    setComment('')
+    setName('')
+    setEmail('')
   }
 
   return (
@@ -40,18 +64,17 @@ function NewComment(props) {
       <div className={classes.row}>
         <div className={classes.control}>
           <label htmlFor='email'>Your email</label>
-          <input type='email' id='email' ref={emailInputRef} />
+          <input type='email' id='email' value={email} onChange={handleEmailChange}/>
         </div>
         <div className={classes.control}>
           <label htmlFor='name'>Your name</label>
-          <input type='text' id='name' ref={nameInputRef} />
+          <input type='text' id='name' value={name} onChange={handleNameChange}/>
         </div>
       </div>
       <div className={classes.control}>
         <label htmlFor='comment'>Your comment</label>
-        <textarea id='comment' rows='5' ref={commentInputRef}></textarea>
+        <textarea id='comment' rows='5' value={comment} onChange={handleCommentChange}></textarea>
       </div>
-      {isInvalid && <p>Please enter a valid email address and comment!</p>}
       <button>Submit</button>
     </form>
   );
