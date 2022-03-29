@@ -67,6 +67,7 @@ function Comments(props) {
         message: 'Try again later',
         status: 'error'
       })
+      return
     })
   }
 

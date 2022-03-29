@@ -15,6 +15,15 @@ export default function NewsletterRegistration() {
   function registrationHandler(event) {
     event.preventDefault();
 
+    if(!email || (email === '')) {
+      notificationCtx.showNotification({
+        title: 'Oops, please fill in your email address.',
+        message: '',  
+        status: 'error'
+      })
+      return
+    }
+
     notificationCtx.showNotification({
       title: 'Signing Up...',
       message: 'Registering for newsletter.',
