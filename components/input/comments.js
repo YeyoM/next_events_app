@@ -64,7 +64,7 @@ function Comments(props) {
     }).catch(e => {
       notificationCtx.showNotification({
         title: 'Something went wrong!',
-        message: 'Try again later',
+        message: e.message || 'Try again later',
         status: 'error'
       })
       return
